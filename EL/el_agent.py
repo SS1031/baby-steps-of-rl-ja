@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class ELAgent():
+class ELAgent:
 
     def __init__(self, epsilon):
         self.Q = {}
@@ -10,11 +10,12 @@ class ELAgent():
         self.reward_log = []
 
     def policy(self, s, actions):
+        """epsilon-greedy法に基づく戦略が実装されている"""
         if np.random.random() < self.epsilon:
-            return np.random.randint(len(actions))
+            return np.random.randint(len(actions))  # 探索
         else:
             if s in self.Q and sum(self.Q[s]) != 0:
-                return np.argmax(self.Q[s])
+                return np.argmax(self.Q[s])  # 価値評価Qに基づき行動
             else:
                 return np.random.randint(len(actions))
 
@@ -25,6 +26,8 @@ class ELAgent():
         self.reward_log.append(reward)
 
     def show_reward_log(self, interval=50, episode=-1):
+        """記録した報酬の可視化
+        """
         if episode > 0:
             rewards = self.reward_log[-interval:]
             mean = np.round(np.mean(rewards), 3)

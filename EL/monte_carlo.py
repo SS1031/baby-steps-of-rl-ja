@@ -10,8 +10,9 @@ class MonteCarloAgent(ELAgent):
     def __init__(self, epsilon=0.1):
         super().__init__(epsilon)
 
-    def learn(self, env, episode_count=1000, gamma=0.9,
-              render=False, report_interval=50):
+    def learn(self, env, episode_count=1000, gamma=0.9, render=False, report_interval=50):
+        """
+        """
         self.init_log()
         actions = list(range(env.action_space.n))
         self.Q = defaultdict(lambda: [0] * len(actions))
@@ -22,7 +23,7 @@ class MonteCarloAgent(ELAgent):
             done = False
             # Play until the end of episode.
             experience = []
-            while not done:
+            while not done:  # エピソードが終わるまで実行する
                 if render:
                     env.render()
                 a = self.policy(s, actions)
@@ -33,10 +34,11 @@ class MonteCarloAgent(ELAgent):
                 self.log(reward)
 
             # Evaluate each state, action.
-            for i, x in enumerate(experience):
+            for i, x in enumerate(experience):  # 各経験から価値を計算
                 s, a = x["state"], x["action"]
 
                 # Calculate discounted future reward of s.
+                # 割引現在価値
                 G, t = 0, 0
                 for j in range(i, len(experience)):
                     G += math.pow(gamma, t) * experience[j]["reward"]
@@ -53,7 +55,7 @@ class MonteCarloAgent(ELAgent):
 def train():
     agent = MonteCarloAgent(epsilon=0.1)
     env = gym.make("FrozenLakeEasy-v0")
-    agent.learn(env, episode_count=500)
+    agent.learn(env, episode_count=1000)
     show_q_value(agent.Q)
     agent.show_reward_log()
 

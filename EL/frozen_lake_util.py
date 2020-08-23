@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import gym
 from gym.envs.registration import register
-register(id="FrozenLakeEasy-v0", entry_point="gym.envs.toy_text:FrozenLakeEnv",
+
+register(id="FrozenLakeEasy-v0",
+         entry_point="gym.envs.toy_text:FrozenLakeEnv",
          kwargs={"is_slippery": False})
 
 

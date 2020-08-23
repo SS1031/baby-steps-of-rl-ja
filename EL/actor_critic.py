@@ -11,9 +11,10 @@ class Actor(ELAgent):
         nrow = env.observation_space.n
         ncol = env.action_space.n
         self.actions = list(range(env.action_space.n))
-        self.Q = np.random.uniform(0, 1, nrow * ncol).reshape((nrow, ncol))
+        self.Q = np.random.uniform(0, 1, nrow * ncol).reshape((nrow, ncol))  # 全ての行動を一律の確率で初期化
 
     def softmax(self, x):
+        """各行動の行動確率をsoftmaxで表現"""
         return np.exp(x) / np.sum(np.exp(x), axis=0)
 
     def policy(self, s):
@@ -22,14 +23,14 @@ class Actor(ELAgent):
         return a[0]
 
 
-class Critic():
+class Critic:
 
     def __init__(self, env):
         states = env.observation_space.n
         self.V = np.zeros(states)
 
 
-class ActorCritic():
+class ActorCritic:
 
     def __init__(self, actor_class, critic_class):
         self.actor_class = actor_class
@@ -75,4 +76,4 @@ def train():
 
 
 if __name__ == "__main__":
-    train()
+    train()  # 収束するまでのエピソードは長くなるが安定した報酬を得られるようになる
